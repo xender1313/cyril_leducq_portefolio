@@ -1,6 +1,6 @@
 <?php
 // Inclure le fichier SendGrid.php
-require 'vendors/sendgrid/SendGrid.php';
+require './vendors/sendgrid/SendGrid.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Récupérer et sécuriser les données du formulaire
