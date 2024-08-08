@@ -1,6 +1,6 @@
 <?php
-// Inclure le fichier SendGrid.php
-require './vendors/sendgrid/SendGrid.php';
+// Inclure l'autoloader de Composer si disponible
+require 'vendor/autoload.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Récupérer et sécuriser les données du formulaire
@@ -28,16 +28,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email_content .= "Message:\n$message\n";
 
     // Créer l'email avec SendGrid
-    $email = new \SendGrid\Mail\Mail();
-    // Remplacez cette adresse par une adresse validée avec SendGrid ou une adresse générique si non configurée
-    $email->setFrom("noreply@votre-domaine.com", "Formulaire de Contact");
-    $email->setSubject("Nouveau message de $nom via le formulaire de contact");
-    $email->addTo("cyril.leducq.pro@gmail.com", "Cyril Leducq");
-    $email->addContent("text/plain", $email_content);
+    $mail = new \SendGrid\Mail\Mail();
+    $mail->setFrom("noreply@votre-domaine.com", "Formulaire de Contact");
+    $mail->setSubject("Nouveau message de $nom via le formulaire de contact");
+    $mail->addTo("cyril.leducq.pro@gmail.com", "Cyril Leducq");
+    $mail->addContent("text/plain", $email_content);
 
     // Envoyer l'email via SendGrid
     try {
-        $response = $sendgrid->send($email);
+        $response = $sendgrid->send($mail);
         if ($response->statusCode() == 202) {
             // Redirection vers la page de remerciement
             header("Location: merci.html");
